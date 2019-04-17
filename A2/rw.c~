@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void) {
+  char area[10][10];
+  int row, col, i, x, y, random;
+  int dot = 46;
+
+  for (row = 0; row < 10; row++) {
+    for (col = 0; col < 10; col++) {
+      area[row][col] = dot;
+    }
+  }
+
+  srand(time(0));
+  
+  
+  x = 0;
+  y = 0;
+
+  for (i = 0; i < 26; i++) {
+    if (i == 0) {
+      area[x][y] = i + 65;
+    } else {
+      
+      if ((area[x+1][y] != dot || x+1 > 9) && (area[x-1][y] != dot || x-1 < 0) && (area[x][y+1] != dot || y+1 > 9) && (area[x][y-1] != dot || y-1 < 0)) {
+	break;
+      }
+
+      for (;;) {
+	random = rand() %4;
+	printf("%d\n", random);
+	if (random == 0 && y-1 > -1) {
+	  if (area[x][y-1] == dot) {
+	    area[x][y-1] = i+65;
+	    y=y-1;
+	    break;
+	  }
+	} else if (random == 1 && x+1 < 10) {
+	  if (area[x+1][y] == dot) {
+	    area[x+1][y] = i+65;
+	    x=x+1;
+	    break;
+	  }
+	} else if (random == 2 && y+1 < 10) {
+	  if (area[x][y+1] == dot) {
+	    area[x][y+1] = i+65;
+	    y=y+1;
+	    break;
+	  }
+	} else {
+	  if(random == 3 && x-1 > -1) {
+	    if (area[x-1][y] == dot) {
+	      area[x-1][y] = i+65;
+	      x=x-1;
+	      break;
+	    }
+	  }
+	}
+
+      }
+      
+    }
+    
+  }
+  
+  for (row = 0; row < 10; row++) {
+    for (col = 0; col < 10; col++) {
+      printf("%c ", area[row][col]);
+      if(col == 9) {
+	printf("\n");
+      }
+    }
+  }
+
+  return 0;
+}
